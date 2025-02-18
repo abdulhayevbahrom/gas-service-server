@@ -11,12 +11,19 @@ connect(process.env.DB_URI)
   .catch((err) => console.log(err, "DB connection error".bgRed));
 
 const router = require("./routers/router");
+const authMiddleware = require("./middleware/authMiddleware");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://gaz-service.vercel.app/"],
+    methods: ["POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.get("/", (req, res) => res.send("welcome to server"));
 
-app.use("/api", router);
+app.use("/api", authMiddleware, router);
 
 app.listen(PORT, () => console.log("http://localhost:".bgCyan + PORT.bgCyan));

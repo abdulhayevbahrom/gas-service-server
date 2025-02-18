@@ -22,6 +22,13 @@ class response {
       innerData: null,
     });
   }
+  unAuthorizate(res, message = "Royhatdan o'tmagansiz") {
+    return res.status(403).send({
+      success: false,
+      message,
+      innerData: null,
+    });
+  }
 
   // server error
   serverError(res, message = "Server xatoligi", data = null) {
